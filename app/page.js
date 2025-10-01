@@ -9,12 +9,13 @@ import { Pagination, Autoplay } from "swiper/modules"
 import Image from "next/image"
 import Link from "next/link"
 import gsap from "gsap"
+import crackers from "@/data/cracker"
 
 export default function HomePage() {
   const [selectedImg, setSelectedImg] = useState(null)
   const [sparkPositions, setSparkPositions] = useState([])
 
-  // Generate spark positions once on client
+  // Generate spark positions
   useEffect(() => {
     const positions = [...Array(10)].map(() => ({
       top: `${Math.random() * 100}%`,
@@ -23,7 +24,7 @@ export default function HomePage() {
     setSparkPositions(positions)
   }, [])
 
-  // Floating fireworks animation
+  // Fireworks animation
   useEffect(() => {
     const stars = gsap.utils.toArray(".spark")
     stars.forEach((star) => {
@@ -40,72 +41,86 @@ export default function HomePage() {
     })
   }, [sparkPositions])
 
-  const products = [
-    { name: "Sparklers", img: "/sparkler.jpg" },
-    { name: "Rockets", img: "/rocket.jpg" },
-    { name: "Kids Pack", img: "/kids.jpg" },
-    { name: "Gift Box", img: "/giftbox.jpg" },
-  ]
+  // Take first 8 crackers for homepage carousel
+  const featuredCrackers = crackers.slice(0, 8)
 
   return (
     <div className="bg-gradient-to-b from-purple-900 via-black to-pink-900 text-white">
-      {/* Hero Section */}
-      <section className="relative h-screen flex flex-col items-center justify-center text-center overflow-hidden">
-        <Image
-          src="/fireworks-bg.jpg"
-          alt="Diwali Celebration"
-          fill
-          className="object-cover opacity-40 -z-10"
-          priority
-        />
 
-        {/* Sparks */}
-        {sparkPositions.map((pos, i) => (
-          <div
-            key={i}
-            className="spark absolute w-2 h-2 rounded-full bg-yellow-300 shadow-lg"
-            style={{ top: pos.top, left: pos.left }}
-          ></div>
-        ))}
+     {/* Hero Section */}
+<section className="relative h-screen flex flex-col items-center justify-center text-center overflow-hidden">
+  <Image
+    src="/1.jpg"
+    alt="Diwali Celebration"
+    fill
+    className="object-cover opacity-40 -z-10"
+    priority
+  />
 
-        <motion.h1
-          className="text-5xl md:text-7xl font-extrabold text-pink-400 drop-shadow-lg"
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          ✨ Celebrate Diwali in Style ✨
-        </motion.h1>
+  {sparkPositions.map((pos, i) => (
+    <div
+      key={i}
+      className="spark absolute w-2 h-2 rounded-full bg-yellow-300 shadow-lg"
+      style={{ top: pos.top, left: pos.left }}
+    ></div>
+  ))}
 
-        <motion.p
-          className="mt-4 text-lg md:text-2xl text-gray-200 max-w-2xl"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          Premium Crackers • Royal Discounts • Safe & Certified
-        </motion.p>
+  <motion.h1
+    className="text-5xl md:text-7xl font-extrabold text-pink-400 drop-shadow-lg z-10"
+    initial={{ y: 100, opacity: 0 }}
+    animate={{ y: 0, opacity: 1 }}
+    transition={{ duration: 1 }}
+  >
+    ✨ Celebrate Diwali in Style ✨
+  </motion.h1>
 
-        <motion.div
-          className="mt-6 flex gap-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-        >
-          <Link
-            href="/shop"
-            className="bg-gradient-to-r from-yellow-300 to-orange-500 text-black font-bold px-6 py-3 rounded-2xl shadow-lg hover:scale-110 transition"
-          >
-            Shop Now
-          </Link>
-          <Link
-            href="/contact"
-            className="bg-transparent border border-pink-400 text-pink-400 px-6 py-3 rounded-2xl hover:bg-pink-400 hover:text-black transition"
-          >
-            Contact
-          </Link>
-        </motion.div>
-      </section>
+  <motion.p
+    className="mt-4 text-lg md:text-2xl text-gray-200 max-w-2xl z-10"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ delay: 0.5 }}
+  >
+    Premium Crackers • Royal Discounts • Safe & Certified
+  </motion.p>
+
+  <motion.div
+    className="mt-6 flex gap-4 z-10"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ delay: 1 }}
+  >
+    <Link
+      href="/shop"
+      className="bg-gradient-to-r from-yellow-300 to-orange-500 text-black font-bold px-6 py-3 rounded-2xl shadow-lg hover:scale-110 transition"
+    >
+      Shop Now
+    </Link>
+    <Link
+      href="/contact"
+      className="bg-transparent border border-pink-400 text-pink-400 px-6 py-3 rounded-2xl hover:bg-pink-400 hover:text-black transition"
+    >
+      Contact
+    </Link>
+  </motion.div>
+
+  {/* Owner Image in Hero */}
+  <motion.div
+    whileHover={{ scale: 1.05, y: -10 }}
+    className="absolute bottom-10 right-10 w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-yellow-400 shadow-2xl cursor-pointer z-10"
+  >
+    <Image
+      src="/gourav.jpg"
+      alt="Gourav"
+      fill
+      style={{ objectFit: "cover" }}
+      className="rounded-full"
+    />
+    <div className="absolute bottom-0 w-full bg-black bg-opacity-50 text-yellow-300 text-center text-sm py-1 rounded-b-full">
+      Gourav
+    </div>
+  </motion.div>
+</section>
+
 
       {/* Product Carousel */}
       <section className="py-20 bg-gradient-to-b from-black via-purple-950 to-black">
@@ -124,15 +139,15 @@ export default function HomePage() {
             1024: { slidesPerView: 3 },
           }}
         >
-          {products.map((item, i) => (
-            <SwiperSlide key={i}>
+          {featuredCrackers.map((item, i) => (
+            <SwiperSlide key={item.id}>
               <motion.div
-                whileHover={{ scale: 1.08, rotate: 0 }} // rotation removed
+                whileHover={{ scale: 1.08 }}
                 className="bg-gradient-to-br from-purple-800 to-pink-700 rounded-2xl overflow-hidden shadow-xl cursor-pointer"
-                onClick={() => setSelectedImg(item.img)}
+                onClick={() => setSelectedImg(item.image)}
               >
                 <Image
-                  src={item.img}
+                  src={item.image}
                   alt={item.name}
                   width={500}
                   height={300}
@@ -143,7 +158,7 @@ export default function HomePage() {
                     {item.name}
                   </h3>
                   <p className="text-gray-200 text-sm mt-2">
-                    Celebrate with {item.name} this festive season.
+                    {item.price ? `₹${item.price}` : "Price on request"} - Celebrate with {item.name} this festive season.
                   </p>
                   <Link
                     href={`/shop`}

@@ -51,7 +51,7 @@ export default function Footer() {
             <Link href="https://facebook.com" target="_blank" className="hover:text-blue-400">
               <Facebook size={24} />
             </Link>
-            <Link href="https://wa.me/919876543210" target="_blank" className="hover:text-green-400">
+            <Link href="https://wa.me/918168585528" target="_blank" className="hover:text-green-400">
               <MessageCircle size={24} />
             </Link>
             <Link href="https://youtube.com" target="_blank" className="hover:text-red-500">

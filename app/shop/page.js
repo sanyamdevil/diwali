@@ -1,151 +1,166 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import React, { useState, useRef } from "react"
 import { motion } from "framer-motion"
-import gsap from "gsap"
+import { Swiper, SwiperSlide } from "swiper/react"
+import "swiper/css"
+import "swiper/css/pagination"
+import { Pagination, Navigation } from "swiper/modules"
+import crackers from "@/data/cracker"
 import Image from "next/image"
 import Link from "next/link"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 export default function ShopPage() {
-  const [sparkPositions, setSparkPositions] = useState([])
-  const [floatingSparks, setFloatingSparks] = useState([])
+  const [search, setSearch] = useState("")
+  const [priceRange, setPriceRange] = useState("")
+  const swiperRef = useRef(null)
 
-  // Generate spark positions once for background
-  useEffect(() => {
-    const positions = [...Array(25)].map(() => ({
-      top: `${Math.random() * 100}%`,
-      left: `${Math.random() * 100}%`,
-    }))
-    setSparkPositions(positions)
+  // Price ranges
+  const ranges = {
+    "0-200": [0, 200],
+    "201-500": [201, 500],
+    "501-1000": [501, 1000],
+    "1001+": [1001, Infinity],
+  }
 
-    const floating = [...Array(6)].map(() => ({
-      top: `${Math.random() * 80}%`,
-      left: `${Math.random() * 100}%`,
-    }))
-    setFloatingSparks(floating)
-  }, [])
-
-  // Animate sparks
-  useEffect(() => {
-    const stars = gsap.utils.toArray(".spark")
-    stars.forEach((star) => {
-      gsap.to(star, {
-        x: () => gsap.utils.random(-250, 250),
-        y: () => gsap.utils.random(-150, 150),
-        scale: () => gsap.utils.random(0.5, 1.5),
-        opacity: () => gsap.utils.random(0.3, 1),
-        duration: () => gsap.utils.random(2, 5),
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      })
-    })
-  }, [sparkPositions])
-
-  const products = [
-    { name: "Sparklers", img: "/sparkler.jpg", price: "₹150" },
-    { name: "Rockets", img: "/rocket.jpg", price: "₹250" },
-    { name: "Kids Pack", img: "/kids.jpg", price: "₹300" },
-    { name: "Gift Box", img: "/giftbox.jpg", price: "₹500" },
-  ]
+  const filteredCrackers = crackers.filter((c) => {
+    const matchesSearch = c.name.toLowerCase().includes(search.toLowerCase())
+    const matchesPrice = priceRange
+      ? (c.price ? c.price >= ranges[priceRange][0] && c.price <= ranges[priceRange][1] : false)
+      : true
+    return matchesSearch && matchesPrice
+  })
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-black via-purple-950 to-pink-900 text-white overflow-hidden">
-      
-      {/* Floating Sparks */}
-      {sparkPositions.map((pos, i) => (
-        <div
-          key={i}
-          className="spark absolute w-2 h-2 rounded-full bg-yellow-300 shadow-lg blur-sm"
-          style={{ top: pos.top, left: pos.left }}
-        ></div>
-      ))}
+    <main className="min-h-screen bg-black text-white antialiased">
+      {/* HEADER */}
+      <motion.section
+        className="pt-28 pb-10 text-center"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
+        <h1 className="text-4xl font-extrabold text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.7)]">
+          🎆 Explore Crackers 🎆
+        </h1>
+        <p className="text-gray-300 mt-2">Find your favorite cracker and filter by budget.</p>
+      </motion.section>
 
-      {/* Hero Section */}
-      <section className="text-center py-20 relative z-10">
-        <motion.h1
-          className="text-5xl md:text-6xl font-extrabold text-yellow-300 drop-shadow-lg animate-pulse"
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          🎇 Explore Crackers 🎇
-        </motion.h1>
-        <motion.p
-          className="mt-4 text-lg text-gray-300 max-w-2xl mx-auto animate-pulse"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          Discover premium, safe, and certified Diwali crackers. Add sparkle to your festive season!
-        </motion.p>
-      </section>
+      {/* SEARCH + FILTER */}
+      <motion.section
+        className="px-6 lg:px-12 py-6 flex flex-col md:flex-row items-center justify-center md:justify-between gap-6"
+        initial={{ y: -30, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.7, delay: 0.3 }}
+      >
+        <motion.input
+          type="text"
+          placeholder="🔎 Search crackers..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          whileFocus={{ scale: 1.03, boxShadow: "0px 0px 12px rgba(250, 204, 21, 0.7)" }}
+          transition={{ type: "spring", stiffness: 200 }}
+          className="w-full md:w-1/2 px-4 py-3 rounded-xl bg-gray-900 text-white placeholder-gray-400 shadow focus:outline-none focus:ring-2 focus:ring-yellow-400"
+        />
 
-      {/* Products Grid */}
-      <section className="px-6 md:px-20 py-16 z-10 relative">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((item, i) => (
-            <motion.div
-              key={i}
-              className="bg-gradient-to-br from-purple-800 to-pink-700 rounded-2xl shadow-2xl overflow-hidden cursor-pointer hover:scale-105 hover:rotate-0 transition-transform duration-300"
-              whileHover={{ scale: 1.08, rotate: [0, 0, 0, 0], boxShadow: "0 0 30px rgba(255,255,0,0.7)" }}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: i * 0.2 }}
+        <motion.select
+          value={priceRange}
+          onChange={(e) => setPriceRange(e.target.value)}
+          whileFocus={{ scale: 1.03, boxShadow: "0px 0px 12px rgba(250, 204, 21, 0.7)" }}
+          transition={{ type: "spring", stiffness: 200 }}
+          className="w-full md:w-1/3 px-4 py-3 rounded-xl bg-gray-900 text-white shadow focus:outline-none focus:ring-2 focus:ring-yellow-400"
+        >
+          <option value="">💰 All Prices</option>
+          <option value="0-200">₹0 - ₹200</option>
+          <option value="201-500">₹201 - ₹500</option>
+          <option value="501-1000">₹501 - ₹1000</option>
+          <option value="1001+">₹1001+</option>
+        </motion.select>
+      </motion.section>
+
+      {/* PRODUCT CAROUSEL */}
+      <section className="py-10 relative">
+        <div className="container mx-auto px-6 lg:px-12">
+          {filteredCrackers.length > 0 ? (
+            <>
+              {/* Left Arrow */}
+              <button
+                onClick={() => swiperRef.current?.slidePrev()}
+                className="absolute top-1/2 -left-4 transform -translate-y-1/2 bg-yellow-400 text-black p-2 rounded-full shadow-lg z-20 hover:scale-110 transition"
+              >
+                <ChevronLeft size={24} />
+              </button>
+
+              {/* Right Arrow */}
+              <button
+                onClick={() => swiperRef.current?.slideNext()}
+                className="absolute top-1/2 -right-4 transform -translate-y-1/2 bg-yellow-400 text-black p-2 rounded-full shadow-lg z-20 hover:scale-110 transition"
+              >
+                <ChevronRight size={24} />
+              </button>
+
+              <Swiper
+                onSwiper={(swiper) => (swiperRef.current = swiper)}
+                modules={[Pagination, Navigation]}
+                slidesPerView={1}
+                spaceBetween={20}
+                breakpoints={{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }}
+                pagination={{ clickable: true }}
+              >
+                {filteredCrackers.map((c, index) => (
+                  <SwiperSlide key={c.id}>
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1, duration: 0.5 }}
+                      whileHover={{
+                        y: -6,
+                        boxShadow: "0px 0px 20px rgba(250, 204, 21, 0.7)",
+                        scale: 1.03,
+                      }}
+                      className="p-4 bg-gray-900 rounded-2xl shadow-lg h-full transition-all duration-300"
+                    >
+                      <div className="relative h-52 rounded-lg overflow-hidden">
+                        <Image
+                          src={c.image || `/placeholder.jpg`}
+                          alt={c.name}
+                          fill
+                          style={{ objectFit: "cover" }}
+                        />
+                      </div>
+
+                      <div className="mt-4 flex items-center justify-between">
+                        <div>
+                          <div className="font-semibold text-white">{c.name}</div>
+                          <div className="text-sm text-gray-400">
+                            {c.price ? `₹${c.price}` : "Price on request"}
+                          </div>
+                        </div>
+                        <Link
+                          href="https://wa.me/918168585528"
+                          target="_blank"
+                          className="px-3 py-2 bg-yellow-400 hover:bg-yellow-500 rounded-xl font-semibold text-black shadow-md transition-all duration-200 hover:scale-105"
+                        >
+                          Contact
+                        </Link>
+                      </div>
+                    </motion.div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </>
+          ) : (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center text-gray-400 text-lg"
             >
-              <Image
-                src={item.img}
-                alt={item.name}
-                width={500}
-                height={300}
-                className="w-full h-56 object-cover"
-              />
-              <div className="p-6 text-center">
-                <h3 className="text-xl font-bold text-yellow-300">{item.name}</h3>
-                <p className="text-gray-200 mt-2">{item.price}</p>
-                <Link
-                  href={`/contact`}
-                  className="mt-4 inline-block bg-yellow-400 text-black px-6 py-2 rounded-xl font-bold hover:scale-105 transition shadow-lg"
-                >
-                  Contact Us
-                </Link>
-              </div>
-            </motion.div>
-          ))}
+              No crackers found 🚫
+            </motion.p>
+          )}
         </div>
       </section>
-
-      {/* Footer CTA */}
-      <section className="py-16 text-center relative z-10">
-        <motion.h2
-          className="text-4xl md:text-5xl font-extrabold text-yellow-300 mb-6 animate-pulse"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          🎆 Hurry! Limited Stock Available 🎆
-        </motion.h2>
-        <Link
-          href="/contact"
-          className="bg-black text-yellow-300 font-bold px-8 py-4 rounded-2xl hover:scale-110 transition shadow-lg"
-        >
-          Contact Us
-        </Link>
-      </section>
-
-      {/* Subtle Floating Fireworks */}
-      <div className="absolute top-0 w-full h-full pointer-events-none">
-        {floatingSparks.map((spark, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-white rounded-full blur-sm"
-            style={{ top: spark.top, left: spark.left }}
-            animate={{ opacity: [0, 1, 0], scale: [0.5, 1.2, 0.5] }}
-            transition={{ duration: 2 + i, repeat: Infinity, repeatType: "loop", delay: i }}
-          />
-        ))}
-      </div>
-    </div>
+    </main>
   )
 }

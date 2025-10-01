@@ -7,9 +7,11 @@ import Link from "next/link"
 
 export default function ContactPage() {
   const [sparkPositions, setSparkPositions] = useState([])
+  const [mounted, setMounted] = useState(false) // To fix hydration issues
 
-  // Generate spark positions once
+  // Generate spark positions only after mount
   useEffect(() => {
+    setMounted(true)
     const positions = [...Array(20)].map(() => ({
       top: `${Math.random() * 100}%`,
       left: `${Math.random() * 100}%`,
@@ -19,6 +21,7 @@ export default function ContactPage() {
 
   // Animate sparks
   useEffect(() => {
+    if (!mounted) return
     const stars = gsap.utils.toArray(".spark")
     stars.forEach((star) => {
       gsap.to(star, {
@@ -32,7 +35,9 @@ export default function ContactPage() {
         ease: "sine.inOut",
       })
     })
-  }, [sparkPositions])
+  }, [sparkPositions, mounted])
+
+  if (!mounted) return null // Don't render until mounted to prevent hydration errors
 
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-black via-purple-950 to-pink-900 text-white overflow-hidden">
@@ -69,23 +74,27 @@ export default function ContactPage() {
 
       {/* Contact Info */}
       <section className="grid md:grid-cols-3 gap-8 px-6 md:px-20 py-10 z-10 relative">
-        {[{
-          title: "📍 Address",
-          content: ["Sonipat, Haryana, India"],
-          gradient: "from-yellow-400 to-pink-500",
-        },{
-          title: "📞 Contact",
-          content: [
-            'Phone: <a href="tel:+918168585528" class="underline">+91 81685 85528</a>',
-            'WhatsApp: <a href="https://wa.me/918168585528" class="underline">Click Here</a>',
-            'Email: <a href="mailto:info@crackerbazaar.com" class="underline">info@crackerbazaar.com</a>',
-          ],
-          gradient: "from-pink-500 to-purple-600",
-        },{
-          title: "🕒 Timing",
-          content: ["Mon – Sun", "9:00 AM – 10:00 PM"],
-          gradient: "from-purple-600 to-yellow-400",
-        }].map((item, i) => (
+        {[
+          {
+            title: "📍 Address",
+            content: ["Sonipat, Haryana, India"],
+            gradient: "from-yellow-400 to-pink-500",
+          },
+          {
+            title: "📞 Contact",
+            content: [
+              'Phone: <a href="tel:+918168585528" class="underline">+91 81685 85528</a>',
+              'WhatsApp: <a href="https://wa.me/918168585528" class="underline" target="_blank">Click Here</a>',
+              'Email: <a href="mailto:sanyamcsekuk@gmail.com" class="underline">sanyamcsekuk@gmail.com</a>',
+            ],
+            gradient: "from-pink-500 to-purple-600",
+          },
+          {
+            title: "🕒 Timing",
+            content: ["Mon – Sun", "9:00 AM – 10:00 PM"],
+            gradient: "from-purple-600 to-yellow-400",
+          },
+        ].map((item, i) => (
           <motion.div
             key={i}
             className={`bg-gradient-to-r ${item.gradient} p-6 rounded-2xl shadow-lg text-center text-black cursor-pointer`}
@@ -102,47 +111,6 @@ export default function ContactPage() {
           </motion.div>
         ))}
       </section>
-
-      {/* Contact Form */}
-      {/* <section className="px-6 md:px-20 py-16 relative z-10">
-        <motion.h2
-          className="text-3xl md:text-4xl text-center font-bold text-yellow-300 mb-10 animate-pulse"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          ✨ Send Us a Message ✨
-        </motion.h2>
-
-        <form className="max-w-2xl mx-auto bg-gradient-to-r from-purple-800 to-pink-700 p-8 rounded-2xl shadow-2xl">
-          <div className="grid gap-6">
-            {["Your Name", "Your Email"].map((placeholder, i) => (
-              <motion.input
-                key={i}
-                type={placeholder.includes("Email") ? "email" : "text"}
-                placeholder={placeholder}
-                className="w-full p-3 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-offset-2 transition shadow-lg"
-                whileFocus={{ scale: 1.02, boxShadow: "0 0 15px rgba(255,255,0,0.8)" }}
-                required
-              />
-            ))}
-            <motion.textarea
-              rows="4"
-              placeholder="Your Message"
-              className="w-full p-3 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-offset-2 transition shadow-lg"
-              whileFocus={{ scale: 1.02, boxShadow: "0 0 15px rgba(255,255,0,0.8)" }}
-              required
-            ></motion.textarea>
-            <motion.button
-              type="submit"
-              className="bg-yellow-400 text-black font-bold py-3 rounded-xl hover:scale-105 transition shadow-lg"
-              whileHover={{ scale: 1.15, rotate: [0, 2, -2, 0], boxShadow: "0 0 30px rgba(255,255,0,0.7)" }}
-            >
-              Send Message
-            </motion.button>
-          </div>
-        </form>
-      </section> */}
 
       {/* Google Map */}
       <section className="px-6 md:px-20 py-16 relative z-10">
