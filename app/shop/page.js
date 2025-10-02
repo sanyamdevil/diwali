@@ -16,7 +16,6 @@ export default function ShopPage() {
   const [priceRange, setPriceRange] = useState("")
   const swiperRef = useRef(null)
 
-  // Price ranges
   const ranges = {
     "0-200": [0, 200],
     "201-500": [201, 500],
@@ -87,17 +86,25 @@ export default function ShopPage() {
               {/* Left Arrow */}
               <button
                 onClick={() => swiperRef.current?.slidePrev()}
-                className="absolute top-1/2 -left-4 transform -translate-y-1/2 bg-yellow-400 text-black p-2 rounded-full shadow-lg z-20 hover:scale-110 transition"
+                className="absolute top-1/2 -left-6 transform -translate-y-1/2 
+                           bg-yellow-400 text-black p-3 rounded-full z-20 shadow-lg
+                           hover:scale-125 hover:rotate-[-12deg] transition-all duration-300
+                           animate-pulse hover:animate-none
+                           shadow-[0_0_15px_rgba(250,204,21,0.8)]"
               >
-                <ChevronLeft size={24} />
+                <ChevronLeft size={28} />
               </button>
 
               {/* Right Arrow */}
               <button
                 onClick={() => swiperRef.current?.slideNext()}
-                className="absolute top-1/2 -right-4 transform -translate-y-1/2 bg-yellow-400 text-black p-2 rounded-full shadow-lg z-20 hover:scale-110 transition"
+                className="absolute top-1/2 -right-6 transform -translate-y-1/2 
+                           bg-yellow-400 text-black p-3 rounded-full z-20 shadow-lg
+                           hover:scale-125 hover:rotate-[12deg] transition-all duration-300
+                           animate-pulse hover:animate-none
+                           shadow-[0_0_15px_rgba(250,204,21,0.8)]"
               >
-                <ChevronRight size={24} />
+                <ChevronRight size={28} />
               </button>
 
               <Swiper
@@ -107,6 +114,7 @@ export default function ShopPage() {
                 spaceBetween={20}
                 breakpoints={{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }}
                 pagination={{ clickable: true }}
+                className="pb-10"
               >
                 {filteredCrackers.map((c, index) => (
                   <SwiperSlide key={c.id}>
@@ -119,7 +127,7 @@ export default function ShopPage() {
                         boxShadow: "0px 0px 20px rgba(250, 204, 21, 0.7)",
                         scale: 1.03,
                       }}
-                      className="p-4 bg-gray-900 rounded-2xl shadow-lg h-full transition-all duration-300"
+                      className="p-4 bg-gray-900 rounded-2xl shadow-lg h-full transition-all duration-300 mb-6"
                     >
                       <div className="relative h-52 rounded-lg overflow-hidden">
                         <Image

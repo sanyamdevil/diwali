@@ -2,7 +2,7 @@
 const crackers = [
   { id: 1, name: "Whistling Rocket", price: 500, image: "/1.jpg" },
   { id: 2, name: "Chit Put", price: 150, image: "/2.jpg" },
-  { id: 3, name: "Silver Rain Torches", price: null, image: "/3.jpg" }, // price missing in note
+  { id: 3, name: "Silver Rain Torches", price: 100, image: "/3.jpg" }, // price missing in note
   { id: 4, name: "Ganga Jamuna", price: 180, image: "/4.jpg" },
   { id: 5, name: "Jumbo Bombs (Hydro)", price: 300, image: "/5.jpg" },
   { id: 6, name: "3 Skyshot Stylo", price: 550, image: "/6.jpg" },
@@ -34,7 +34,7 @@ const crackers = [
   { id: 30, name: "The 100 Multi Colour Shot", price: 3500, image: "/30.jpg" },
   { id: 31, name: "30 Shots", price: 900, image: "/31.jpg" },
   { id: 32, name: "Silver Giant Wheel", price: 550, image: "/32.jpg" },
-  { id: 33, name: "Butterfly", price: null, image: "/33.jpg" }, // no price written
+  { id: 33, name: "Butterfly", price: 100, image: "/33.jpg" }, // no price written
   { id: 34, name: "Colour Koti Giant", price: 600, image: "/34.jpg" },
   { id: 35, name: "2 Sound Crackers", price: 100, image: "/35.jpg" },
   { id: 36, name: "3 inch Sutli", price: 250, image: "/36.jpg" },

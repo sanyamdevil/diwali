@@ -85,7 +85,7 @@ export default function ContactPage() {
             content: [
               'Phone: <a href="tel:+918168585528" class="underline">+91 81685 85528</a>',
               'WhatsApp: <a href="https://wa.me/918168585528" class="underline" target="_blank">Click Here</a>',
-              'Email: <a href="mailto:sanyamcsekuk@gmail.com" class="underline">sanyamcsekuk@gmail.com</a>',
+              'Email: <a href="mailto:Hackerbuddy53@gmail.com" class="underline">Hackerbuddy53@gmail.com</a>',
             ],
             gradient: "from-pink-500 to-purple-600",
           },

@@ -47,84 +47,76 @@ export default function HomePage() {
   return (
     <div className="bg-gradient-to-b from-purple-900 via-black to-pink-900 text-white">
 
-     {/* Hero Section */}
-<section className="relative h-screen flex flex-col items-center justify-center text-center overflow-hidden">
-  <Image
-    src="/1.jpg"
-    alt="Diwali Celebration"
-    fill
-    className="object-cover opacity-40 -z-10"
-    priority
-  />
+      {/* Hero Section */}
+      <section className="relative h-screen flex flex-col items-center justify-center text-center overflow-hidden pt-20 md:pt-28">
+        <Image
+          src="/1.jpg"
+          alt="Diwali Celebration"
+          fill
+          className="object-cover opacity-40 -z-10"
+          priority
+        />
 
-  {sparkPositions.map((pos, i) => (
-    <div
-      key={i}
-      className="spark absolute w-2 h-2 rounded-full bg-yellow-300 shadow-lg"
-      style={{ top: pos.top, left: pos.left }}
-    ></div>
-  ))}
+        {sparkPositions.map((pos, i) => (
+          <div
+            key={i}
+            className="spark absolute w-2 h-2 rounded-full bg-yellow-300 shadow-lg"
+            style={{ top: pos.top, left: pos.left }}
+          ></div>
+        ))}
 
-  <motion.h1
-    className="text-5xl md:text-7xl font-extrabold text-pink-400 drop-shadow-lg z-10"
-    initial={{ y: 100, opacity: 0 }}
-    animate={{ y: 0, opacity: 1 }}
-    transition={{ duration: 1 }}
-  >
-    ✨ Celebrate Diwali in Style ✨
-  </motion.h1>
+        {/* 🔥 Discount Banner */}
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="absolute top-20 md:top-24 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-6 py-3 rounded-2xl font-extrabold text-lg md:text-2xl shadow-2xl animate-bounce"
+        >
+          🎉 Flat 40% OFF This Diwali 🎉
+        </motion.div>
 
-  <motion.p
-    className="mt-4 text-lg md:text-2xl text-gray-200 max-w-2xl z-10"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ delay: 0.5 }}
-  >
-    Premium Crackers • Royal Discounts • Safe & Certified
-  </motion.p>
+        <motion.h1
+          className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-pink-400 drop-shadow-lg z-10 px-4"
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          ✨ Celebrate Diwali in Style ✨
+        </motion.h1>
 
-  <motion.div
-    className="mt-6 flex gap-4 z-10"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ delay: 1 }}
-  >
-    <Link
-      href="/shop"
-      className="bg-gradient-to-r from-yellow-300 to-orange-500 text-black font-bold px-6 py-3 rounded-2xl shadow-lg hover:scale-110 transition"
-    >
-      Shop Now
-    </Link>
-    <Link
-      href="/contact"
-      className="bg-transparent border border-pink-400 text-pink-400 px-6 py-3 rounded-2xl hover:bg-pink-400 hover:text-black transition"
-    >
-      Contact
-    </Link>
-  </motion.div>
+        <motion.p
+          className="mt-4 text-base sm:text-lg md:text-2xl text-gray-200 max-w-2xl z-10 px-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          Premium Crackers • Royal Discounts • Safe & Certified
+        </motion.p>
 
-  {/* Owner Image in Hero */}
-  <motion.div
-    whileHover={{ scale: 1.05, y: -10 }}
-    className="absolute bottom-10 right-10 w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-yellow-400 shadow-2xl cursor-pointer z-10"
-  >
-    <Image
-      src="/gourav.jpg"
-      alt="Gourav"
-      fill
-      style={{ objectFit: "cover" }}
-      className="rounded-full"
-    />
-    <div className="absolute bottom-0 w-full bg-black bg-opacity-50 text-yellow-300 text-center text-sm py-1 rounded-b-full">
-      Gourav
-    </div>
-  </motion.div>
-</section>
-
+        <motion.div
+          className="mt-6 flex gap-4 z-10 flex-wrap justify-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+        >
+          <Link
+            href="/shop"
+            className="bg-gradient-to-r from-yellow-300 to-orange-500 text-black font-bold px-6 py-3 rounded-2xl shadow-lg hover:scale-110 transition"
+          >
+            Shop Now
+          </Link>
+          <Link
+            href="/contact"
+            className="bg-transparent border border-pink-400 text-pink-400 px-6 py-3 rounded-2xl hover:bg-pink-400 hover:text-black transition"
+          >
+            Contact
+          </Link>
+        </motion.div>
+      </section>
 
       {/* Product Carousel */}
-      <section className="py-20 bg-gradient-to-b from-black via-purple-950 to-black">
-        <h2 className="text-center text-4xl font-bold text-yellow-300 mb-10 drop-shadow-md">
+      <section className="py-16 sm:py-20 bg-gradient-to-b from-black via-purple-950 to-black">
+        <h2 className="text-center text-3xl sm:text-4xl font-bold text-yellow-300 mb-10 drop-shadow-md px-2">
           🎇 Our Best Crackers 🎇
         </h2>
 
@@ -132,7 +124,7 @@ export default function HomePage() {
           modules={[Pagination, Autoplay]}
           pagination={{ clickable: true }}
           autoplay={{ delay: 2500 }}
-          spaceBetween={30}
+          spaceBetween={20}
           slidesPerView={1}
           breakpoints={{
             640: { slidesPerView: 2 },
@@ -151,14 +143,14 @@ export default function HomePage() {
                   alt={item.name}
                   width={500}
                   height={300}
-                  className="w-full h-56 object-cover"
+                  className="w-full h-48 sm:h-56 object-cover"
                 />
                 <div className="p-4 text-center">
-                  <h3 className="text-xl font-semibold text-yellow-200 drop-shadow">
+                  <h3 className="text-lg sm:text-xl font-semibold text-yellow-200 drop-shadow">
                     {item.name}
                   </h3>
                   <p className="text-gray-200 text-sm mt-2">
-                    {item.price ? `₹${item.price}` : "Price on request"} - Celebrate with {item.name} this festive season.
+                    {item.price ? `₹${item.price}` : "Price on request"} - Celebrate with {item.name}.
                   </p>
                   <Link
                     href={`/shop`}
@@ -174,9 +166,9 @@ export default function HomePage() {
       </section>
 
       {/* Festive CTA */}
-      <section className="py-20 bg-gradient-to-r from-pink-600 to-yellow-400 text-black text-center">
+      <section className="py-16 sm:py-20 bg-gradient-to-r from-pink-600 to-yellow-400 text-black text-center">
         <motion.h2
-          className="text-4xl md:text-5xl font-extrabold mb-6"
+          className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6 px-4"
           initial={{ opacity: 0, y: 100 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
@@ -185,7 +177,7 @@ export default function HomePage() {
         </motion.h2>
         <Link
           href="/shop"
-          className="bg-black text-yellow-300 font-bold px-8 py-4 rounded-2xl hover:scale-110 transition shadow-lg"
+          className="bg-black text-yellow-300 font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-2xl hover:scale-110 transition shadow-lg"
         >
           Explore Crackers
         </Link>
@@ -195,7 +187,7 @@ export default function HomePage() {
       <AnimatePresence>
         {selectedImg && (
           <motion.div
-            className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
